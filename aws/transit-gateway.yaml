@@ -1,0 +1,257 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy a single Check Point Gateway for a transit VPC hub (__VERSION__)
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Network Configuration
+      Parameters:
+      - VPC
+      - PublicSubnetId
+      - PrivateSubnetId
+    - Label:
+        default: EC2 Instances Configuration
+      Parameters:
+      - GatewayName
+      - InstanceType
+      - KeyPairName
+    - Label:
+        default: Check Point Settings
+      Parameters:
+      - ASN
+      - License
+      - SICKey
+      - Shell
+      - PasswordHash
+      - AllowUploadDownload
+    - Label:
+        default: Automatic Provisioning with Security Management Server Settings (optional)
+      Parameters:
+      - ControlGatewayOverPrivateOrPublicAddress
+      - ManagementServer
+      - ConfigurationTemplate
+    ParameterLabels:
+      VPC:
+        default: VPC
+      PublicSubnetId:
+        default: Public Subnet
+      PrivateSubnetId:
+        default: Private Subnet
+      GatewayName:
+        default: Gateway Name
+      InstanceType:
+        default: Instance type
+      KeyPairName:
+        default: Key name
+      ASN:
+        default: BGP ASN
+      License:
+        default: Version & license
+      SICKey:
+        default: SIC key
+      Shell:
+        default: Admin shell
+      PasswordHash:
+        default: Password hash
+      AllowUploadDownload:
+        default: Allow upload & download
+      ControlGatewayOverPrivateOrPublicAddress:
+        default: Gateways addresses
+      ManagementServer:
+        default: Management Server
+      ConfigurationTemplate:
+        default: Configuration template
+Parameters:
+  GatewayName:
+    Description: The value for the name tag of the gateway instance
+    Type: String
+    Default: transit-gateway
+  InstanceType:
+    Description: c4 and t2 instance types are supported only with version R80.10 and c5 are supported only with R80.20
+    Type: String
+    AllowedValues:
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - t2.xlarge
+    - t2.2xlarge
+    ConstraintDescription: must be a valid EC2 instance type.
+  KeyPairName:
+    Description: The EC2 Key Pair to allow SSH access to the Security Gateways
+    Type: AWS::EC2::KeyPair::KeyName
+    MinLength: '1'
+  VPC:
+    Description: Select an existing VPC
+    Type: AWS::EC2::VPC::Id
+    MinLength: 1
+    ConstraintDescription: you must select a VPC
+  PublicSubnetId:
+    Description: The public subnet of the Security Gateway
+    Type: AWS::EC2::Subnet::Id
+    MinLength: 1
+  PrivateSubnetId:
+    Description: The private subnet of the Security Gateway
+    Type: AWS::EC2::Subnet::Id
+    MinLength: 1
+  License:
+    Description: The license to install on the Security Gateways
+    Type: String
+    Default: R80.10-BYOL
+    AllowedValues:
+    - R80.10-BYOL
+    - R80.10-PAYG-NGTP
+    - R80.10-PAYG-NGTX
+    - R80.20-BYOL
+    - R80.20-PAYG-NGTP
+    - R80.20-PAYG-NGTX
+  ASN:
+    Description: The organization Autonomous System Number (ASN) that identifies the routing domain for the Security Gateways
+    Type: String
+    AllowedPattern: '[0-9]*'
+    Default: 65000
+  ControlGatewayOverPrivateOrPublicAddress:
+    Description: Determines if the gateways are provisioned using their private or public address
+    Default: public
+    Type: String
+    AllowedValues:
+    - private
+    - public
+  ManagementServer:
+    Description: The name that represents the Security Management Server in the automatic provisioning configuration
+    Type: String
+    Default: ''
+  ConfigurationTemplate:
+    Description: A name of a gateway configuration template in the automatic provisioning configuration
+    Type: String
+    Default: ''
+  PasswordHash:
+    Description: Admin user's password hash (use command "openssl passwd -1 PASSWORD" to get the PASSWORD's hash) (optional)
+    Default: ''
+    Type: String
+    AllowedPattern: '[\$\./a-zA-Z0-9]*'
+    NoEcho: true
+  Shell:
+    Description: Change the admin shell to enable advanced command line configuration
+    Type: String
+    Default: /etc/cli.sh
+    AllowedValues:
+    - /etc/cli.sh
+    - /bin/bash
+    - /bin/csh
+    - /bin/tcsh
+  SICKey:
+    Description: The Secure Internal Communication key creates trusted connections between Check Point components. Choose a random string consisting of at least 8 alphanumeric characters
+    NoEcho: 'true'
+    MinLength: '8'
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9]*'
+    ConstraintDescription: At least 8 alpha numeric characters
+  AllowUploadDownload:
+    Description: Automatically download Blade Contracts and other important data. Improve product experience by sending data to Check Point
+    Type: String
+    Default: 'true'
+    AllowedValues:
+    - 'true'
+    - 'false'
+Conditions:
+  UseAutoprovision: !Not
+  - !Or
+    - !Equals
+      - !Ref ManagementServer
+      - ''
+    - !Equals
+      - !Ref ConfigurationTemplate
+      - ''
+Resources:
+  AMI:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: __URL__/amis.json
+      Parameters:
+        Version: !Join
+        - '-'
+        - - !Ref License
+          - GW
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Permissive security group
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+      - IpProtocol: '-1'
+        CidrIp: 0.0.0.0/0
+  ExternalInterface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SourceDestCheck: 'false'
+      GroupSet:
+      - !Ref SecurityGroup
+      SubnetId: !Ref PublicSubnetId
+  InternalInterface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SourceDestCheck: 'false'
+      GroupSet:
+      - !Ref SecurityGroup
+      SubnetId: !Ref PrivateSubnetId
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      Tags:
+      - Key: Name
+        Value: !Ref GatewayName
+      - Key: !If
+        - UseAutoprovision
+        - x-chkp-tags+
+        - ignored-tag-key
+        Value: !If
+        - UseAutoprovision
+        - !Sub management=${ManagementServer}+template=${ConfigurationTemplate}+ip-address=${ControlGatewayOverPrivateOrPublicAddress}
+        - ignored-tag-value
+      ImageId: !GetAtt AMI.Outputs.ImageId
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyPairName
+      NetworkInterfaces:
+      - DeviceIndex: '0'
+        NetworkInterfaceId: !Ref ExternalInterface
+      - DeviceIndex: '1'
+        NetworkInterfaceId: !Ref InternalInterface
+      UserData:
+        Fn::Base64: !Sub
+          - |
+            #!/bin/bash
+            echo template_name: transit >> /etc/cloud-version
+            echo template_version: __VERSION__ >> /etc/cloud-version
+            clish -c "set user admin shell ${Shell}" -s
+            pwd_hash='${PasswordHash}'
+            test -z "$pwd_hash" && {
+                pwd_hash="$(dd if=/dev/urandom count=1 2>/dev/null | sha1sum | cut -c -28)"
+            }
+            clish -c "set as ${ASN}" -s
+            sic=$(echo ${sic64} | base64 --decode)
+            blink_config -s "gateway_cluster_member=false&ftw_sic_key='$sic'&upload_info=${AllowUploadDownload}&download_info=${AllowUploadDownload}&admin_hash='$pwd_hash'"
+            echo sim_ipsec_dont_fragment=0 >>$PPKDIR/boot/modules/simkern.conf
+            shutdown -r now
+          - sic64: !Base64 { Ref: SICKey }
+  PublicAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+  AddressAssoc:
+    Type: AWS::EC2::EIPAssociation
+    DependsOn: Instance
+    Properties:
+      NetworkInterfaceId: !Ref ExternalInterface
+      AllocationId: !GetAtt PublicAddress.AllocationId
+Outputs:
+  PublicAddress:
+    Description: The public address of the Security Gateway
+    Value: !Ref PublicAddress

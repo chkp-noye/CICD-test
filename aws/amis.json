@@ -1,0 +1,375 @@
+{
+  "Description": "Returns a Check Point Amazon Machine ID (__VERSION__)",
+  "Parameters": {
+    "Version": {
+      "Description": "Security Gateway version",
+      "Type": "String",
+      "Default": "R80.10-BYOL",
+      "AllowedValues": [
+        "BYOL",
+        "PAYG",
+        "R80",
+        "R77.30-BYOL",
+        "R77.30-PAYG-NGTP",
+        "R80.10-BYOL",
+        "R80.10-PAYG-NGTP",
+        "R80.10-BYOL-GW",
+        "R80.10-PAYG-NGTP-GW",
+        "R80.10-PAYG-NGTX-GW",
+        "R80.10-PAYG-MGMT5",
+        "R80.20-BYOL-MGMT",
+        "R80.20-PAYG-MGMT5",
+        "R80.20-BYOL-GW",
+        "R80.20-PAYG-NGTP-GW",
+        "R80.20-PAYG-NGTX-GW"
+      ]
+    }
+  },
+  "Mappings": {
+    "ConverterMap": {
+      "BYOL": {
+        "Value": "R7730BYOL"
+      },
+      "PAYG": {
+        "Value": "R7730PAYGNGTP"
+      },
+      "R80": {
+        "Value": "R80"
+      },
+      "R77.30-BYOL": {
+        "Value": "R7730BYOL"
+      },
+      "R77.30-PAYG-NGTP": {
+        "Value": "R7730PAYGNGTP"
+      },
+      "R80.10-BYOL": {
+        "Value": "R8010BYOL"
+      },
+      "R80.10-PAYG-NGTP": {
+        "Value": "R8010PAYGNGTP"
+      },
+      "R80.10-BYOL-GW": {
+        "Value": "R8010BYOLGW"
+      },
+      "R80.10-PAYG-NGTP-GW": {
+        "Value": "R8010PAYGNGTPGW"
+      },
+      "R80.10-PAYG-NGTX-GW": {
+        "Value": "R8010PAYGNGTXGW"
+      },
+      "R80.10-PAYG-MGMT5": {
+        "Value": "R8010PAYGMGMT5"
+      },
+      "R80.20-BYOL-MGMT": {
+        "Value": "R8020BYOLMGMT"
+      },
+      "R80.20-PAYG-MGMT5": {
+        "Value": "R8020PAYGMGMT5"
+      },
+      "R80.20-BYOL-GW": {
+        "Value": "R8020BYOLGW"
+      },
+      "R80.20-PAYG-NGTP-GW": {
+        "Value": "R8020PAYGNGTPGW"
+      },
+      "R80.20-PAYG-NGTX-GW": {
+        "Value": "R8020PAYGNGTXGW"
+      }
+    },
+    "RegionMap": {
+      "ap-northeast-1": {
+        "R7730BYOL": "ami-62dea804",
+        "R7730PAYGNGTP": "ami-16dfa970",
+        "R80": "ami-baccb2dd",
+        "R8010BYOL": "ami-03b171c04f1a2b667",
+        "R8010BYOLGW": "ami-092d7434412e4449b",
+        "R8010PAYGMGMT5": "ami-05da2b57985db6d6a",
+        "R8010PAYGNGTP": "ami-009b7d100548b52d7",
+        "R8010PAYGNGTPGW": "ami-0c3640fa748f1a58b",
+        "R8010PAYGNGTXGW": "ami-03854a80906e7b2e1",
+        "R8020BYOLGW": "ami-04c278979cdcde217",
+        "R8020BYOLMGMT": "ami-0039bd876ce2cd2cc",
+        "R8020PAYGMGMT5": "ami-09c81a09e985039eb",
+        "R8020PAYGNGTPGW": "ami-08c2fbdbe73946ff2",
+        "R8020PAYGNGTXGW": "ami-0842740d7bd49eeff"
+      },
+      "ap-northeast-2": {
+        "R7730BYOL": "ami-e5b1138b",
+        "R7730PAYGNGTP": "ami-74b6141a",
+        "R80": "ami-d3d302bd",
+        "R8010BYOL": "ami-07861c833126ee7d3",
+        "R8010BYOLGW": "ami-0c235113ffd066e89",
+        "R8010PAYGMGMT5": "ami-016cd4f25a1052a0e",
+        "R8010PAYGNGTP": "ami-07d71e25ae8c42424",
+        "R8010PAYGNGTPGW": "ami-04c11df926d7922dc",
+        "R8010PAYGNGTXGW": "ami-0b811d338b201d71b",
+        "R8020BYOLGW": "ami-097c7847403a3920f",
+        "R8020BYOLMGMT": "ami-0d33ab2ae881f3aa3",
+        "R8020PAYGMGMT5": "ami-0377cb8630ad193b4",
+        "R8020PAYGNGTPGW": "ami-0d2c45ce8157240ec",
+        "R8020PAYGNGTXGW": "ami-0bfaeccfac1a63284"
+      },
+      "ap-south-1": {
+        "R7730BYOL": "ami-ef104280",
+        "R7730PAYGNGTP": "ami-7412401b",
+        "R80": "ami-54d7a13b",
+        "R8010BYOL": "ami-0d70af9a3bf7ed166",
+        "R8010BYOLGW": "ami-09570d5e0e634c155",
+        "R8010PAYGMGMT5": "ami-065627d632e519530",
+        "R8010PAYGNGTP": "ami-0ca38a5ab32a32402",
+        "R8010PAYGNGTPGW": "ami-062dc48cbf1b722ab",
+        "R8010PAYGNGTXGW": "ami-048089983e7722211",
+        "R8020BYOLGW": "ami-04cadb01804793765",
+        "R8020BYOLMGMT": "ami-0e5cd8ca257fb3714",
+        "R8020PAYGMGMT5": "ami-0035d780d63615c92",
+        "R8020PAYGNGTPGW": "ami-02624d5f00eeb282b",
+        "R8020PAYGNGTXGW": "ami-044a3bcf3b3e77d63"
+      },
+      "ap-southeast-1": {
+        "R7730BYOL": "ami-ecf8b990",
+        "R7730PAYGNGTP": "ami-95fbbae9",
+        "R80": "ami-4dd3792e",
+        "R8010BYOL": "ami-07760a643c67c74e9",
+        "R8010BYOLGW": "ami-03ba84cd564d4bdf7",
+        "R8010PAYGMGMT5": "ami-0757a720777160880",
+        "R8010PAYGNGTP": "ami-0e726234e298325f8",
+        "R8010PAYGNGTPGW": "ami-078683a357f1bc21d",
+        "R8010PAYGNGTXGW": "ami-0819ece04f439f8f4",
+        "R8020BYOLGW": "ami-077131e03ee155037",
+        "R8020BYOLMGMT": "ami-02dc6aba4ba2fd8f2",
+        "R8020PAYGMGMT5": "ami-00c4c7889667cbf58",
+        "R8020PAYGNGTPGW": "ami-0b465f9ba2e93f2eb",
+        "R8020PAYGNGTXGW": "ami-00f7e55da9389c110"
+      },
+      "ap-southeast-2": {
+        "R7730BYOL": "ami-e3728981",
+        "R7730PAYGNGTP": "ami-56778c34",
+        "R80": "ami-1a8d8979",
+        "R8010BYOL": "ami-057c1ce8ef1c5c545",
+        "R8010BYOLGW": "ami-0a971290ba20e74e5",
+        "R8010PAYGMGMT5": "ami-047476f218f9d7b50",
+        "R8010PAYGNGTP": "ami-0aa3f436612fc8303",
+        "R8010PAYGNGTPGW": "ami-06eb9532e217a6ab5",
+        "R8010PAYGNGTXGW": "ami-03349cd09f3dd98e9",
+        "R8020BYOLGW": "ami-0f4872cba7b3d8520",
+        "R8020BYOLMGMT": "ami-002bbffa7e0d9b7a1",
+        "R8020PAYGMGMT5": "ami-0073f51aaa4ab8f13",
+        "R8020PAYGNGTPGW": "ami-00ccc52d9a39e8213",
+        "R8020PAYGNGTXGW": "ami-0d47b85cc7be4b45b"
+      },
+      "ca-central-1": {
+        "R7730BYOL": "ami-4faa2e2b",
+        "R7730PAYGNGTP": "ami-5ea82c3a",
+        "R80": "ami-09ec516d",
+        "R8010BYOL": "ami-088b18e35373a7f00",
+        "R8010BYOLGW": "ami-0a05178384a2f73d1",
+        "R8010PAYGMGMT5": "ami-07ff75926b24428ef",
+        "R8010PAYGNGTP": "ami-03dd17eaeffc101a5",
+        "R8010PAYGNGTPGW": "ami-08ef04c429224350c",
+        "R8010PAYGNGTXGW": "ami-0cbd3313ac5741d1a",
+        "R8020BYOLGW": "ami-0fa35bf3cbb283cc9",
+        "R8020BYOLMGMT": "ami-0a0531f26a53a648a",
+        "R8020PAYGMGMT5": "ami-0903a6c26032538b8",
+        "R8020PAYGNGTPGW": "ami-068837ad2434bbff6",
+        "R8020PAYGNGTXGW": "ami-03975282e12458db2"
+      },
+      "eu-central-1": {
+        "R7730BYOL": "ami-98f397f7",
+        "R7730PAYGNGTP": "ami-a1f195ce",
+        "R80": "ami-1cb77873",
+        "R8010BYOL": "ami-0408826efa12e9aa8",
+        "R8010BYOLGW": "ami-0ecb975acb0ef6eba",
+        "R8010PAYGMGMT5": "ami-049bcd060fcfc5e4d",
+        "R8010PAYGNGTP": "ami-065126c92c0fbb5c4",
+        "R8010PAYGNGTPGW": "ami-0eb239dbe950d68be",
+        "R8010PAYGNGTXGW": "ami-054188fd3b941f56f",
+        "R8020BYOLGW": "ami-05c1cd8fcc05d02b9",
+        "R8020BYOLMGMT": "ami-00d8ef8ee9111408e",
+        "R8020PAYGMGMT5": "ami-01dff12e851e45b05",
+        "R8020PAYGNGTPGW": "ami-00400189047c609d0",
+        "R8020PAYGNGTXGW": "ami-0e99c184d0ab1dc92"
+      },
+      "eu-north-1": {
+        "R8010BYOL": "ami-2431be5a",
+        "R8010BYOLGW": "ami-5cf37a22",
+        "R8010PAYGNGTP": "ami-9f810fe1",
+        "R8010PAYGNGTPGW": "ami-92f37aec",
+        "R8010PAYGNGTXGW": "ami-c3f079bd",
+        "R8020BYOLGW": "ami-b2b03ecc",
+        "R8020BYOLMGMT": "ami-0deb6573",
+        "R8020PAYGMGMT5": "ami-0ceb6572",
+        "R8020PAYGNGTPGW": "ami-34b13f4a",
+        "R8020PAYGNGTXGW": "ami-734ec00d"
+      },
+      "eu-west-1": {
+        "R7730BYOL": "ami-0d610a74",
+        "R7730PAYGNGTP": "ami-0f600b76",
+        "R80": "ami-7c66510f",
+        "R8010BYOL": "ami-0afd8ac581c0910ba",
+        "R8010BYOLGW": "ami-09c3f3d49a941eb65",
+        "R8010PAYGMGMT5": "ami-01edf139844e5cb2b",
+        "R8010PAYGNGTP": "ami-08114474e1a2eeb8a",
+        "R8010PAYGNGTPGW": "ami-0d3ed119e28d89264",
+        "R8010PAYGNGTXGW": "ami-068693a8a9398d633",
+        "R8020BYOLGW": "ami-0f33541dab1ed55a3",
+        "R8020BYOLMGMT": "ami-002190566b64f9202",
+        "R8020PAYGMGMT5": "ami-077053411f627092f",
+        "R8020PAYGNGTPGW": "ami-000e62e5fab54198d",
+        "R8020PAYGNGTXGW": "ami-0d6d37e45d5642ae7"
+      },
+      "eu-west-2": {
+        "R7730BYOL": "ami-f1947196",
+        "R7730PAYGNGTP": "ami-5896733f",
+        "R80": "ami-d49c96b0",
+        "R8010BYOL": "ami-037cbdfb453b16460",
+        "R8010BYOLGW": "ami-0068072bc3da38b7a",
+        "R8010PAYGMGMT5": "ami-0c788ec80fa4cf082",
+        "R8010PAYGNGTP": "ami-0bc5171032edd1240",
+        "R8010PAYGNGTPGW": "ami-059a28fdde2d858ab",
+        "R8010PAYGNGTXGW": "ami-04b1482ef27d05811",
+        "R8020BYOLGW": "ami-0f646df97f3aca149",
+        "R8020BYOLMGMT": "ami-053dc8b75019c9d17",
+        "R8020PAYGMGMT5": "ami-00db1039de284086e",
+        "R8020PAYGNGTPGW": "ami-09f1bda44f355ca32",
+        "R8020PAYGNGTXGW": "ami-064950fbe1903c672"
+      },
+      "eu-west-3": {
+        "R8010BYOL": "ami-07a3ba878e2c8497d",
+        "R8010BYOLGW": "ami-0feb57c5a58814a05",
+        "R8010PAYGMGMT5": "ami-0aaa256d353b37bd6",
+        "R8010PAYGNGTP": "ami-08eb18d3dc78e5137",
+        "R8010PAYGNGTPGW": "ami-0c58c9c7597a98607",
+        "R8010PAYGNGTXGW": "ami-0e8be8495dc16d2be",
+        "R8020BYOLGW": "ami-0e3cf44775e0b27f3",
+        "R8020BYOLMGMT": "ami-01e9f9066db3c1bc6",
+        "R8020PAYGMGMT5": "ami-0c7f10e784d042b90",
+        "R8020PAYGNGTPGW": "ami-0a984b71664d90df8",
+        "R8020PAYGNGTXGW": "ami-05b6fa8d35aef1c76"
+      },
+      "sa-east-1": {
+        "R7730BYOL": "ami-465a142a",
+        "R7730PAYGNGTP": "ami-145f1178",
+        "R80": "ami-902a4ffc",
+        "R8010BYOL": "ami-07260e53cab503dba",
+        "R8010BYOLGW": "ami-0978d4ebf05cfc173",
+        "R8010PAYGMGMT5": "ami-0ba55911d205458d8",
+        "R8010PAYGNGTP": "ami-0ce6ae0b05edf700d",
+        "R8010PAYGNGTPGW": "ami-0237ac5c5bbfdc644",
+        "R8010PAYGNGTXGW": "ami-0f0693819f3446045",
+        "R8020BYOLGW": "ami-0770cd3dd2f8015b4",
+        "R8020BYOLMGMT": "ami-0c294f9b6f4eab832",
+        "R8020PAYGMGMT5": "ami-0c0d8ad70247da84e",
+        "R8020PAYGNGTPGW": "ami-02c6354520206a247",
+        "R8020PAYGNGTXGW": "ami-0b8b21741db9a6128"
+      },
+      "us-east-1": {
+        "R7730BYOL": "ami-a5e7ecdf",
+        "R7730PAYGNGTP": "ami-38e3e842",
+        "R80": "ami-a66981b0",
+        "R8010BYOL": "ami-0440ee050d3e88cfb",
+        "R8010BYOLGW": "ami-0b1d340877aa12839",
+        "R8010PAYGMGMT5": "ami-0fabf8b3a0bcfd77c",
+        "R8010PAYGNGTP": "ami-091e783ea2c3140f5",
+        "R8010PAYGNGTPGW": "ami-0b35fc6fb0ec5498d",
+        "R8010PAYGNGTXGW": "ami-0932c948c88672fa9",
+        "R8020BYOLGW": "ami-0a6b1e46c8f177855",
+        "R8020BYOLMGMT": "ami-08e7103a3b72b9bd9",
+        "R8020PAYGMGMT5": "ami-012123d842de31fba",
+        "R8020PAYGNGTPGW": "ami-0a3134e64a8bf4a72",
+        "R8020PAYGNGTXGW": "ami-034e8dee9f321b136"
+      },
+      "us-east-2": {
+        "R7730BYOL": "ami-da6652bf",
+        "R7730PAYGNGTP": "ami-7d675318",
+        "R80": "ami-5840653d",
+        "R8010BYOL": "ami-0a10586bafc475f7d",
+        "R8010BYOLGW": "ami-0eb199c0f31c39495",
+        "R8010PAYGMGMT5": "ami-0fa296dc73b25c98f",
+        "R8010PAYGNGTP": "ami-0d304c8b8895df14b",
+        "R8010PAYGNGTPGW": "ami-0eaccd64afc11ea53",
+        "R8010PAYGNGTXGW": "ami-00de0ddb8508d3576",
+        "R8020BYOLGW": "ami-07adfc0ccbd419b8d",
+        "R8020BYOLMGMT": "ami-0b2b2c0044874110a",
+        "R8020PAYGMGMT5": "ami-05a123064d2972381",
+        "R8020PAYGNGTPGW": "ami-0fe9baf33b2fc46c7",
+        "R8020PAYGNGTXGW": "ami-05f41c71dfcbe7390"
+      },
+      "us-gov-west-1": {
+        "R7730BYOL": "ami-185dcb79",
+        "R7730PAYGNGTP": "ami-7c5cca1d",
+        "R80": "ami-0b269d6a",
+        "R8010BYOL": "ami-30851351",
+        "R8010BYOLGW": "ami-a85b34c9",
+        "R8010PAYGMGMT5": "ami-5b82143a",
+        "R8010PAYGNGTP": "ami-fd86109c",
+        "R8010PAYGNGTPGW": "ami-11492670",
+        "R8010PAYGNGTXGW": "ami-db5c33ba",
+        "R8020BYOLGW": "ami-1091f071",
+        "R8020BYOLMGMT": "ami-e0d4b381",
+        "R8020PAYGMGMT5": "ami-ccc8afad",
+        "R8020PAYGNGTPGW": "ami-6693f207",
+        "R8020PAYGNGTXGW": "ami-0a8eef6b"
+      },
+      "us-west-1": {
+        "R7730BYOL": "ami-9a7779fa",
+        "R7730PAYGNGTP": "ami-e9747a89",
+        "R80": "ami-6b04560b",
+        "R8010BYOL": "ami-05638ae2b353d70af",
+        "R8010BYOLGW": "ami-0a7d6aa35faf13710",
+        "R8010PAYGMGMT5": "ami-01f36a7ac5fc4a3cf",
+        "R8010PAYGNGTP": "ami-0f859106e82110b41",
+        "R8010PAYGNGTPGW": "ami-0ca4e0aea9e2102c8",
+        "R8010PAYGNGTXGW": "ami-08c1497c2aecf37d6",
+        "R8020BYOLGW": "ami-0ec9959052929d301",
+        "R8020BYOLMGMT": "ami-0b64c1f2ce3cdb952",
+        "R8020PAYGMGMT5": "ami-048d21f46eb1643e3",
+        "R8020PAYGNGTPGW": "ami-066b154d2f9ac76dd",
+        "R8020PAYGNGTXGW": "ami-0fb7da5bd6b4a0c91"
+      },
+      "us-west-2": {
+        "R7730BYOL": "ami-d972f5a1",
+        "R7730PAYGNGTP": "ami-d77dfaaf",
+        "R80": "ami-b7ff40d7",
+        "R8010BYOL": "ami-0b80165993f1dbae5",
+        "R8010BYOLGW": "ami-0e0c00d9af2c0e1dd",
+        "R8010PAYGMGMT5": "ami-078306b39e71dfff5",
+        "R8010PAYGNGTP": "ami-0cbf6b8cb0655bcd6",
+        "R8010PAYGNGTPGW": "ami-0660a96236e76450c",
+        "R8010PAYGNGTXGW": "ami-0cb50e33ae6176289",
+        "R8020BYOLGW": "ami-073d8ecd3b05d4a86",
+        "R8020BYOLMGMT": "ami-026032eeae8b8cda8",
+        "R8020PAYGMGMT5": "ami-06081acfa983f4d4d",
+        "R8020PAYGNGTPGW": "ami-0d941e5382ef77168",
+        "R8020PAYGNGTXGW": "ami-04f5699a181720a7a"
+      }
+    }
+  },
+  "Resources": {
+    "DummyHandle": {
+      "Type": "AWS::CloudFormation::WaitConditionHandle",
+      "Properties": {}
+    }
+  },
+  "Outputs": {
+    "ImageId": {
+      "Description": "Check Point Security Gateway AMI",
+      "Value": {
+        "Fn::FindInMap": [
+          "RegionMap",
+          {
+            "Ref": "AWS::Region"
+          },
+          {
+            "Fn::FindInMap": [
+              "ConverterMap",
+              {
+                "Ref": "Version"
+              },
+              "Value"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

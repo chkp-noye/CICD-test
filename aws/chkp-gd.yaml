@@ -1,0 +1,130 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploys a Check Point Lambda function that tags instances in response to GuardDuty events (__VERSION__)
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Check Point CloudGuard IaaS and Amazon GuardDuty Configuration
+      Parameters:
+      - Tag
+      - Severity
+    ParameterLabels:
+      Tag:
+        default: Tag key
+      Severity:
+        default: Findings Severity
+Parameters:
+  Tag:
+    Description: EC2 instances associated with GuardDuty Findings will be tagged with this tag key
+    Type: String
+    Default: GuardDuty
+    MinLength: '1'
+  Severity:
+    Description: EC2 instances associated with GuardDuty Findings with this severity or higher will be tagged
+    Type: String
+    Default: Medium
+    AllowedValues:
+    - Low
+    - Medium
+    - High
+    ConstraintDescription: Must be a valid GuardDuty Finding severity
+Resources:
+  Permission:
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt Function.Arn
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt Rule.Arn
+    Type: AWS::Lambda::Permission
+  Function:
+    Properties:
+      Code:
+        ZipFile: !Sub |
+            import boto3
+
+            ALLOWED_CHARS = set('+-=._:/@ ')
+            key = '${Tag}'
+            user_severity = '${Severity}'
+            ec2 = boto3.client('ec2')
+
+
+            def lambda_handler(event, context):
+                try:
+                    instance = event['detail']['resource']['instanceDetails']['instanceId']
+                    reason = event['detail']['description']
+                    severity = event['detail']['severity']
+                    print('Instance ID %s is misbehaving' % instance)
+                    print('Reason: %s' % reason)
+                    if user_severity is 'Low':
+                        tag_instance(instance, reason)
+                    elif user_severity is 'Medium':
+                        if severity >= 4.0:
+                            tag_instance(instance, reason)
+                    elif user_severity is 'High':
+                        if severity >= 7.0:
+                            tag_instance(instance, reason)
+                except KeyError:
+                    print('KeyError')
+                    print('Event: %s' % event)
+                    print('Context: %s' % context)
+
+
+            def tag_instance(instance, value):
+                tag = []
+                for i, c in enumerate(value):
+                    if i > 252:
+                        tag.append('...')
+                        break
+                    if c not in ALLOWED_CHARS and not c.isalnum():
+                        c = '.'
+                    tag.append(c)
+                print('Tagging instance: %s' % instance)
+                ec2.create_tags(Resources=[instance],
+                                Tags=[{'Key': key, 'Value': ''.join(tag)}])
+      Description: Tasks a GD event from CloudWatch and tags the relevant EC2 instance
+      FunctionName: !Sub ${AWS::StackName}-Function
+      Handler: index.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt Role.Arn
+      Runtime: python2.7
+      Timeout: 120
+    Type: AWS::Lambda::Function
+  Rule:
+    Properties:
+      Description: GuardDuty CloudWatch Event for CHKP Lambda
+      EventPattern:
+        source:
+        - aws.guardduty
+      State: ENABLED
+      Targets:
+      - Arn: !GetAtt Function.Arn
+        Id: !Sub ${AWS::StackName}-Function
+    Type: AWS::Events::Rule
+  Role:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${AWS::StackName}-Function:*
+          - Action:
+            - ec2:CreateTags
+            Effect: Allow
+            Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
+          Version: '2012-10-17'
+        PolicyName: !Sub ${AWS::StackName}-RolePolicy
+    Type: AWS::IAM::Role
