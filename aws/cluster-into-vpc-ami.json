@@ -1,0 +1,363 @@
+{
+    "Description" : "Deploy a Check Point Cluster in VPC",
+    "Parameters" : {
+        "InstanceType" : {
+            "Description" : "Check Point Security Gateway instance type",
+            "Type" : "String",
+            "Default" : "c4.large",
+            "AllowedValues" : [ "m3.medium","c4.large","c4.xlarge","c4.2xlarge","c4.4xlarge","c4.8xlarge"],
+            "ConstraintDescription" : "must be a valid EC2 instance type."
+        },
+        "VPC" : {
+            "Description" : "The VPC ID",
+            "Type": "AWS::EC2::VPC::Id",
+            "MinLength": "1"
+        },
+        "ExternalSubnet" : {
+            "Description" : "The external subnet ID",
+            "Type": "AWS::EC2::Subnet::Id",
+            "MinLength": "1"
+        },
+        "InternalSubnet" : {
+            "Description" : "The internal subnet ID",
+            "Type": "AWS::EC2::Subnet::Id",
+            "MinLength": "1"
+        },
+        "AvailabilityZone" : {
+            "Description" : "The availability zone in which to deploy the cluster",
+            "Type": "AWS::EC2::AvailabilityZone::Name",
+            "MinLength": "1"
+        },
+        "ClusterExternalAddr" : {
+            "Description" : "The private address of the cluster on the external subnet",
+            "Type": "String", 
+            "Default": "10.0.0.10"
+        },
+        "MemberAExternalAddr" : {
+            "Description" : "The private address of member A on the external subnet",
+            "Type": "String",
+            "Default": "10.0.0.20"
+        },
+        "MemberBExternalAddr" : {
+            "Description" : "The private address of member B on the external subnet",
+            "Type": "String",
+            "Default": "10.0.0.30"
+        },
+        "ClusterInternalAddr" : {
+            "Type": "String",
+            "Default": "10.0.1.10"
+        },
+        "MemberAInternalAddr" : {
+            "Type": "String",
+            "Default": "10.0.1.20"
+        },
+        "MemberBInternalAddr" : {
+            "Type": "String",
+            "Default": "10.0.1.30"
+        },
+        "KeyName" : {
+            "Description" : "SSH Key Pair",
+            "Type" : "AWS::EC2::KeyPair::KeyName",
+            "MinLength": "1"
+        },
+        "ImageId" : {
+            "Description" : "Amazon Machine ID",
+            "Type" : "AWS::EC2::Image::Id",
+            "MinLength": "1"
+        },
+        "PasswordHash" : {
+            "Description" : "(optional) The admin user password hash (hint, use \"openssl passwd -1\")",
+            "Default": "",
+            "Type" : "String",
+            "AllowedPattern": "[\\$\\./a-zA-Z0-9]*"
+        },
+        "SICKey" : {
+            "Description" : "Secure Internal Communication (SIC) Activation key",
+            "NoEcho" : "true",
+            "MinLength": "8",
+            "Type" : "String",
+            "AllowedPattern" : "[a-zA-Z0-9]*"
+        },
+        "Shell" : {
+            "Description" : "The user admin shell",
+            "Type" : "String",
+            "Default" : "/etc/cli.sh",
+            "AllowedValues" : [ "/etc/cli.sh", "/bin/bash", "/bin/csh", "/bin/tcsh"]
+        }
+    },
+    "Resources" : {
+        "ClusterRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "Cluster",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "ec2:DescribeRouteTables",
+                                        "ec2:ReplaceRoute",
+                                        "ec2:AssignPrivateIpAddresses",
+                                        "ec2:DescribeNetworkInterfaces",
+                                        "ec2:CreateRoute"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "ClusterInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [
+                    {
+                        "Ref": "ClusterRole"
+                    }
+                ]
+            }
+        },
+        "InternalRoutingTable" : {
+            "Type" : "AWS::EC2::RouteTable",
+            "Properties" : {
+                "VpcId" : { "Ref" : "VPC" }
+            }
+        },
+        "InternalDefaultRoute" : {
+            "Type" : "AWS::EC2::Route",
+            "Properties" : {
+                "DestinationCidrBlock" : "0.0.0.0/0",
+                "NetworkInterfaceId" : { "Ref" : "MemberAInternalInterface" },
+                "RouteTableId" : { "Ref" : "InternalRoutingTable" }
+            }
+        },
+        "InternalNetworkRouteAssociation" : {
+           "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+           "Properties" : {
+              "RouteTableId" : { "Ref" : "InternalRoutingTable" },
+              "SubnetId" : { "Ref" : "InternalSubnet" }
+           }
+        },
+        "MemberAExternalInterface" : {
+            "Type" : "AWS::EC2::NetworkInterface",
+            "Properties" : {
+                "Description": "External",
+                "PrivateIpAddresses": [
+                       { "PrivateIpAddress" : { "Ref" : "MemberAExternalAddr" }, "Primary" : "true" },
+                       { "PrivateIpAddress" : { "Ref" : "ClusterExternalAddr" }, "Primary" : "false" }
+                ],
+                "SourceDestCheck": "false",
+                "GroupSet" : [{ "Ref" : "InstanceSecurityGroup" }],
+                "SubnetId": { "Ref" : "ExternalSubnet" }
+            }        
+        },
+        "MemberBExternalInterface" : {
+            "Type" : "AWS::EC2::NetworkInterface",
+            "Properties" : {
+                "Description": "External",
+                "PrivateIpAddresses": [
+                       { "PrivateIpAddress" : { "Ref" : "MemberBExternalAddr" }, "Primary" : "true" }
+                ],
+                "SourceDestCheck": "false",
+                "GroupSet" : [{ "Ref" : "InstanceSecurityGroup" }],
+                "SubnetId": { "Ref" : "ExternalSubnet" }
+            }        
+        },
+        "MemberAInternalInterface" : {
+            "Type" : "AWS::EC2::NetworkInterface",
+            "Properties" : {
+                "Description": "Internal",
+                "PrivateIpAddresses": [
+                       { "PrivateIpAddress" : { "Ref" : "MemberAInternalAddr" }, "Primary" : "true" },
+                       { "PrivateIpAddress" : { "Ref" : "ClusterInternalAddr" }, "Primary" : "false" }
+                ],
+                "GroupSet" : [{ "Ref" : "InstanceSecurityGroup" }],
+                "SourceDestCheck": "false",
+                "SubnetId": { "Ref" : "InternalSubnet" }
+            }        
+        },
+        "MemberBInternalInterface" : {
+            "Type" : "AWS::EC2::NetworkInterface",
+            "Properties" : {
+                "Description": "Internal",
+                "PrivateIpAddress": { "Ref" : "MemberBInternalAddr"},
+                "GroupSet" : [{ "Ref" : "InstanceSecurityGroup" }],
+                "SourceDestCheck": "false",
+                "SubnetId": { "Ref" : "InternalSubnet" }
+            }        
+        },
+        "InstanceSecurityGroup" : {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" : {
+                "GroupDescription" : "Permissive security group",
+                "VpcId" : { "Ref" : "VPC" },
+                "SecurityGroupIngress" : [ { "IpProtocol" : "-1", "CidrIp" : "0.0.0.0/0" } ]
+            }
+        },        
+        "MemberAInstance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "AvailabilityZone" : { "Ref" : "AvailabilityZone" },
+                "Tags" : [
+                  { "Key" : "Name", "Value" : "Member A" }
+                ],
+                "ImageId" : { "Ref" : "ImageId" },
+                "InstanceType" : { "Ref" : "InstanceType" },
+                "KeyName" : { "Ref" : "KeyName" },
+                "NetworkInterfaces" : [ 
+                    { "DeviceIndex" : "0", "NetworkInterfaceId" : {"Ref" : "MemberAExternalInterface"}  },
+                    { "DeviceIndex" : "1", "NetworkInterfaceId" : {"Ref" : "MemberAInternalInterface"}  }
+                ],
+                "IamInstanceProfile" : { "Ref" : "ClusterInstanceProfile" },
+                "UserData" : { "Fn::Base64" :
+                    {   "Fn::Join" : [ "\n", 
+                            [   "#!/bin/bash",
+                                {"Fn::Join" : [ "", ["pwd_hash='", {"Ref" : "PasswordHash"}, "'"]]},
+                                "test -z \"$pwd_hash\" || {",
+                                "   echo \"set admin password\"",
+                                "   clish -c \"set user admin password-hash $pwd_hash\" -s",
+                                "}",
+                                {"Fn::Join" : [ "", ["sic_key='", {"Ref" : "SICKey"}, "'"]]},
+                                {"Fn::Join" : [ "", ["shell='", {"Ref" : "Shell"}, "'"]]},
+                                "clish -c \"set user admin shell $shell\" -s",
+                                "config_system -s \"install_security_gw=true&install_ppak=true&gateway_cluster_member=true&install_security_managment=false&ftw_sic_key=$sic_key\"",
+                                "shutdown -r now",
+                                ""
+                            ]
+                        ] 
+                    }
+                }
+            }
+        },
+        "MemberBInstance" : {
+            "Type" : "AWS::EC2::Instance",
+            "Properties" : {
+                "AvailabilityZone" : { "Ref" : "AvailabilityZone" },
+                "Tags" : [
+                  { "Key" : "Name", "Value" : "Member B" }
+                ],
+                "ImageId" : { "Ref" : "ImageId" },
+                "InstanceType" : { "Ref" : "InstanceType" },
+                "KeyName" : { "Ref" : "KeyName" },
+                "NetworkInterfaces" : [ 
+                    { "DeviceIndex" : "0", "NetworkInterfaceId" : {"Ref" : "MemberBExternalInterface"}  },
+                    { "DeviceIndex" : "1", "NetworkInterfaceId" : {"Ref" : "MemberBInternalInterface"}  }
+                ],
+                "IamInstanceProfile" : { "Ref" : "ClusterInstanceProfile" },
+                "UserData" : { "Fn::Base64" :
+                    {   "Fn::Join" : [ "\n", 
+                            [   "#!/bin/bash",
+                                {"Fn::Join" : [ "", ["pwd_hash='", {"Ref" : "PasswordHash"}, "'"]]},
+                                "test -z \"$pwd_hash\" || {",
+                                "   echo \"set admin password\"",
+                                "   clish -c \"set user admin password-hash $pwd_hash\" -s",
+                                "}",
+                                {"Fn::Join" : [ "", ["sic_key='", {"Ref" : "SICKey"}, "'"]]},
+                                {"Fn::Join" : [ "", ["shell='", {"Ref" : "Shell"}, "'"]]},
+                                "clish -c \"set user admin shell $shell\" -s",
+                                "config_system -s \"install_security_gw=true&install_ppak=true&gateway_cluster_member=true&install_security_managment=false&ftw_sic_key=$sic_key\"",
+                                "shutdown -r now",
+                                ""
+                            ]
+                        ] 
+                    }
+                }
+            }
+        },
+        "ClusterPublicAddress" : {
+           "Type" : "AWS::EC2::EIP",
+           "Properties" : {
+              "Domain" : "vpc"
+           }
+        },
+        "MemberAPublicAddress" : {
+           "Type" : "AWS::EC2::EIP",
+           "Properties" : {
+              "Domain" : "vpc"
+           }
+        },
+        "MemberBPublicAddress" : {
+           "Type" : "AWS::EC2::EIP",
+           "Properties" : {
+              "Domain" : "vpc"
+           }
+        },
+        "ClusterAddressAssoc" : {
+            "Type" : "AWS::EC2::EIPAssociation",
+            "Properties" : {
+                "NetworkInterfaceId" : { "Ref" : "MemberAExternalInterface" },
+                "AllocationId" : { "Fn::GetAtt" : [ "ClusterPublicAddress" , "AllocationId" ] },
+                "PrivateIpAddress" : { "Ref" : "ClusterExternalAddr" }
+            }
+        },
+        "MemberAAddressAssoc" : {
+            "Type" : "AWS::EC2::EIPAssociation",
+            "Properties" : {
+                "NetworkInterfaceId" : { "Ref" : "MemberAExternalInterface" },
+                "AllocationId" : { "Fn::GetAtt" : [ "MemberAPublicAddress" , "AllocationId" ] },
+                "PrivateIpAddress" : { "Fn::GetAtt" : ["MemberAExternalInterface", "PrimaryPrivateIpAddress" ]}
+            }
+        },
+        "MemberBAddressAssoc" : {
+            "Type" : "AWS::EC2::EIPAssociation",
+            "Properties" : {
+                "NetworkInterfaceId" : { "Ref" : "MemberBExternalInterface" },
+                "AllocationId" : { "Fn::GetAtt" : [ "MemberBPublicAddress" , "AllocationId" ] },
+                "PrivateIpAddress" : { "Fn::GetAtt" : ["MemberBExternalInterface", "PrimaryPrivateIpAddress" ]}
+            }
+        }
+    },
+    "Outputs" : {
+        "ClusterPublicAddress" : {
+            "Description" : "The public address of the cluster",
+            "Value" : { "Ref" : "ClusterPublicAddress" }
+        },
+        "MemberAPublicAddress" : {
+            "Description" : "The public address of member A",
+            "Value" : { "Ref" : "MemberAPublicAddress" }
+        },
+        "MemberASSH" : {
+            "Description" : "SSH command to member A",
+            "Value" : { "Fn::Join" : [ "", [ "ssh admin@", { "Ref" : "MemberAPublicAddress" }]]}
+        },        
+        "MemberAURL" : {
+            "Description" : "URL to the member A portal",
+            "Value" : { "Fn::Join" : [ "", [ "https://", { "Ref" : "MemberAPublicAddress" }]]}
+        },       
+        "MemberBPublicAddress" : {
+            "Description" : "The public address of member B",
+            "Value" : { "Ref" : "MemberBPublicAddress" }
+        },
+        "MemberBSSH" : {
+            "Description" : "SSH command to member B",
+            "Value" : { "Fn::Join" : [ "", [ "ssh admin@", { "Ref" : "MemberBPublicAddress" }]]}
+        },        
+        "MemberBURL" : {
+            "Description" : "URL to the member B portal",
+            "Value" : { "Fn::Join" : [ "", [ "https://", { "Ref" : "MemberBPublicAddress" }]]}
+        }
+    }
+}
