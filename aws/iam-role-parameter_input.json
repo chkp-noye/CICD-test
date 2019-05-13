@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "Permissions",
+    "ParameterValue": "1 Create with read permissions"
+  },
+  {
+    "ParameterKey": "STSRoles",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "TrustedAccount",
+    "ParameterValue": ""
+  }
+]
