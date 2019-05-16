@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "Permissions",
-    "ParameterValue": "1 Create with read permissions"
+    "ParameterValue": "Create with read permissions"
   },
   {
     "ParameterKey": "STSRoles",
