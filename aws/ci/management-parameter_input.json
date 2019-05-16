@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "Subnet",
+    "ParameterValue": "subnet-05d5c72081a49eeec"
+  },
+  {
+    "ParameterKey": "Version",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "m4.large"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  }
+]
