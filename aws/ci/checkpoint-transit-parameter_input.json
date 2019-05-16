@@ -1,0 +1,46 @@
+[
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "PublicSubnetA",
+    "ParameterValue": "subnet-01115f1599651fd72"
+  },
+  {
+    "ParameterKey": "PublicSubnetB",
+    "ParameterValue": "subnet-0e772d64a0f44c40e"
+  },
+  {
+    "ParameterKey": "PrivateSubnetA",
+    "ParameterValue": "subnet-05d5c72081a49eeec"
+  },
+  {
+    "ParameterKey": "PrivateSubnetB",
+    "ParameterValue": "subnet-0302afc487942bff6"
+  },
+  {
+    "ParameterKey": "KeyPairName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "Tag",
+    "ParameterValue": "cicd-transit"
+  },
+  {
+    "ParameterKey": "GatewaysLicense",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "GatewaysSIC",
+    "ParameterValue": "zzzz1234"
+  },
+  {
+    "ParameterKey": "ManagementLicense",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "AdminAddressCIDR",
+    "ParameterValue": "0.0.0.0/0"
+  }
+]
