@@ -1,0 +1,30 @@
+[
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "c5.large"
+  },
+  {
+    "ParameterKey": "KeyPairName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "PublicSubnetId",
+    "ParameterValue": "subnet-01115f1599651fd72"
+  },
+  {
+    "ParameterKey": "PrivateSubnetId",
+    "ParameterValue": "subnet-05d5c72081a49eeec"
+  },
+  {
+    "ParameterKey": "License",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "SICKey",
+    "ParameterValue": "zzzz1234"
+  }
+]
