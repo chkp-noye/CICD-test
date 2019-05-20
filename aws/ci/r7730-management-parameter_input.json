@@ -1,0 +1,14 @@
+    [
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "Subnet",
+    "ParameterValue": "subnet-01115f1599651fd72"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  }
+]
