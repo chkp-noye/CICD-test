@@ -16,10 +16,6 @@
     "ParameterValue": "0.0.0.0/0"
   },
   {
-    "ParameterKey": "PasswordHash",
-    "ParameterValue": "$1$SvWy5HMH$TxPMvLIiSmFkfdvCDovJY/"
-  },
-  {
     "ParameterKey": "Hostname",
     "ParameterValue": "test"
   }
