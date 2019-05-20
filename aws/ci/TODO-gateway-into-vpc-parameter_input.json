@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "ExternalSubnet",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "InternalSubnet",
+    "ParameterValue": "zzzz1234"
+  },
+  {
+    "ParameterKey": "Version",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "c5.large"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  }
+]
