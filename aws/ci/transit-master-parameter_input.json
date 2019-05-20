@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "AvailabilityZones",
+    "ParameterValue": "$[taskcat_genaz_2]"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "c5.large"
+  },
+  {
+    "ParameterKey": "KeyPairName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "License",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "SICKey",
+    "ParameterValue": "zzzz1234"
+  }
+]
