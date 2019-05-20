@@ -1,0 +1,34 @@
+[
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "c5.large"
+  },
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "ExternalSubnet",
+    "ParameterValue": "subnet-01115f1599651fd72"
+  },
+  {
+    "ParameterKey": "InternalSubnet",
+    "ParameterValue": "subnet-0302afc487942bff6"
+  },
+  {
+    "ParameterKey": "AvailabilityZone",
+    "ParameterValue": "$[taskcat_genaz_1]"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "Version",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "SICKey",
+    "ParameterValue": "zzzz1234"
+  }
+]
