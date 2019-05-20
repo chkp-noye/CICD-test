@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "AvailabilityZone",
+    "ParameterValue": "$[taskcat_genaz_1]"
+  },
+  {
+    "ParameterKey": "Version",
+    "ParameterValue": "R80.10-BYOL"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "AdminSubnet",
+    "ParameterValue": "0.0.0.0/0"
+  }
+]
