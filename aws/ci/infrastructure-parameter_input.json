@@ -1,0 +1,10 @@
+[
+  {
+    "ParameterKey": "AvailabilityZone",
+    "ParameterValue": "$[taskcat_genaz_1]"
+  },
+  {
+    "ParameterKey": "ResourcesTagName",
+    "ParameterValue": "tag-test"
+  }
+]
