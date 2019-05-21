@@ -18,5 +18,13 @@
   {
     "ParameterKey": "SICKey",
     "ParameterValue": "zzzz1234"
+  },
+  {
+    "ParameterKey": "ManagementServer",
+    "ParameterValue": "test"
+  },
+  {
+    "ParameterKey": "ConfigurationTemplate",
+    "ParameterValue": "test"
   }
 ]
