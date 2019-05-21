@@ -5,11 +5,11 @@
   },
   {
     "ParameterKey": "ExternalSubnet",
-    "ParameterValue": "cicd"
+    "ParameterValue": "subnet-01115f1599651fd72"
   },
   {
     "ParameterKey": "InternalSubnet",
-    "ParameterValue": "zzzz1234"
+    "ParameterValue": "subnet-05d5c72081a49eeec"
   },
   {
     "ParameterKey": "Version",
@@ -22,5 +22,13 @@
   {
     "ParameterKey": "KeyName",
     "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "ManagementServer",
+    "ParameterValue": "test"
+  },
+  {
+    "ParameterKey": "ConfigurationTemplate",
+    "ParameterValue": "test"
   }
 ]
