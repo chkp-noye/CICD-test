@@ -13,11 +13,11 @@
   },
   {
     "ParameterKey": "InternalSubnet",
-    "ParameterValue": "subnet-0302afc487942bff6"
+    "ParameterValue": "subnet-05d5c72081a49eeec"
   },
   {
     "ParameterKey": "AvailabilityZone",
-    "ParameterValue": "$[taskcat_genaz_1]"
+    "ParameterValue": "eu-west-2a"
   },
   {
     "ParameterKey": "KeyName",
