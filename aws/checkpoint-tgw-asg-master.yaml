@@ -278,7 +278,7 @@ Parameters:
   ConfigurationTemplate:
     Description: A name of a gateway configuration template in the automatic provisioning configuration
     Type: String
-    Default: configuration-template
+    Default: TGW-ASG-configuration
     MinLength: '1'
   Name:
     Description: (optional)
