@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "AvailabilityZones",
+    "ParameterValue": "$[taskcat_genaz_2]"
+  },
+  {
+    "ParameterKey": "ManagementLicense",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "KeyPairName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "GatewaysLicense",
+    "ParameterValue": "R80.20-BYOL"
+  },
+  {
+    "ParameterKey": "GatewaysSIC",
+    "ParameterValue": "zzzz1234"
+  }
+]
