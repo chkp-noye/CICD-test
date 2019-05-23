@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "ExternalSubnets",
+    "ParameterValue": "subnet-01115f1599651fd72\,subnet-0e772d64a0f44c40e"
+  },
+  {
+    "ParameterKey": "InternalSubnets",
+    "ParameterValue": "subnet-05d5c72081a49eeec\,subnet-0302afc487942bff6"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "SICKey",
+    "ParameterValue": "zzzz1234"
+  },
+  {
+    "ParameterKey": "License",
+    "ParameterValue": "R80.20-BYOL"
+  }
+]
