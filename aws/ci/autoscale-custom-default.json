@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "ImageId",
-    "ParameterValue": ""
+    "ParameterValue": "ami-0009a33f033d8b7b6"
   },
   {
     "ParameterKey": "KeyName",
