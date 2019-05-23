@@ -21,7 +21,7 @@
   },
   {
     "ParameterKey": "SecurityGroups",
-    "ParameterValue": ""
+    "ParameterValue": "sg-0f822db684003e04c"
   },
   {
     "ParameterKey": "KeyName",
