@@ -1,0 +1,30 @@
+[
+  {
+    "ParameterKey": "AvailabilityZones",
+    "ParameterValue": "$[taskcat_genaz_2]"
+  },
+  {
+    "ParameterKey": "ManagementLicense",
+    "ParameterValue": "R80.10-BYOL"
+  },
+  {
+    "ParameterKey": "KeyPairName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "AdminAddressCIDR",
+    "ParameterValue": "0.0.0.0/0"
+  },
+  {
+    "ParameterKey": "GatewaysLicense",
+    "ParameterValue": "R80.10-BYOL"
+  },
+  {
+    "ParameterKey": "GatewaysSIC",
+    "ParameterValue": "zzzz1234"
+  },
+  {
+    "ParameterKey": "ServersAMI",
+    "ParameterValue": "ami-010a9f23bbecd3d34"
+  }
+]
