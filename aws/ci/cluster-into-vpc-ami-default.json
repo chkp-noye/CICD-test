@@ -1,0 +1,30 @@
+[
+  {
+    "ParameterKey": "VPC",
+    "ParameterValue": "vpc-0ec803e030aac6e4f"
+  },
+  {
+    "ParameterKey": "ExternalSubnet",
+    "ParameterValue": "subnet-01115f1599651fd72"
+  },
+  {
+    "ParameterKey": "InternalSubnet",
+    "ParameterValue": "subnet-05d5c72081a49eeec"
+  },
+  {
+    "ParameterKey": "AvailabilityZone",
+    "ParameterValue": "eu-west-2a"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-010a9f23bbecd3d34"
+  },
+  {
+    "ParameterKey": "SICKey",
+    "ParameterValue": "zzzz1234"
+  }
+]
