@@ -13,7 +13,7 @@
   },
   {
     "ParameterKey": "GatewaysLicense",
-    "ParameterValue": "R80.20-BYOL"
+    "ParameterValue": "R80.10-BYOL"
   },
   {
     "ParameterKey": "GatewaysSIC",
@@ -21,7 +21,7 @@
   },
   {
     "ParameterKey": "ManagementLicense",
-    "ParameterValue": "R80.20-BYOL"
+    "ParameterValue": "R80.10-BYOL"
   },
   {
     "ParameterKey": "AdminAddressCIDR",
@@ -33,6 +33,6 @@
   },
   {
     "ParameterKey": "ServersAMI",
-    "ParameterValue": "ami-02a47f072d26d23dc"
+    "ParameterValue": "ami-010a9f23bbecd3d34"
   }
 ]
