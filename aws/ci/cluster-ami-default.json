@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "ImageId",
+    "ParameterValue": "ami-010a9f23bbecd3d34"
+  },
+  {
+    "ParameterKey": "AvailabilityZone",
+    "ParameterValue": "$[taskcat_genaz_1]"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "SICKey",
+    "ParameterValue": "zzzz1234"
+  }
+]
