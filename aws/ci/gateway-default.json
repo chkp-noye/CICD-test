@@ -26,5 +26,13 @@
   {
     "ParameterKey": "ConfigurationTemplate",
     "ParameterValue": "test"
+  },
+  {
+    "ParameterKey": "Hostname",
+    "ParameterValue": "test"
+  },
+  {
+    "ParameterKey": "ResourcesTagName",
+    "ParameterValue": "test"
   }
 ]
