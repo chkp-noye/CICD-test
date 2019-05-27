@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Deploys a Check Point Security Gateway into a new VPC (__VERSION__)",
+  "Description": "Deploys a Check Point Security Gateway into a new VPC test(__VERSION__)",
   "Metadata": {
     "AWS::CloudFormation::Interface": {
       "ParameterGroups": [
