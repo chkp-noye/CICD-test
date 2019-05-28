@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "This template creates a Multi-AZ, multi-subnet VPC infrastructure (__VERSION__)",
+  "Description": "This template creates a Multi-AZ, multi-subnet VPC infrastructure test (__VERSION__)",
   "Metadata": {
     "AWS::CloudFormation::Interface": {
       "ParameterGroups": [
