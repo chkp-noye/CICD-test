@@ -2,5 +2,13 @@
   {
     "ParameterKey": "AvailabilityZones",
     "ParameterValue": "$[taskcat_genaz_2]"
+  },
+  {
+    "ParameterKey": "ServicePort",
+    "ParameterValue": "80"
+  },
+  {
+    "ParameterKey": "Certificate",
+    "ParameterValue": "arn:aws:iam::123456789012:server-certificate/web-server-certificate"
   }
 ]
