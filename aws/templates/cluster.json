@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Deploy a Check Point Cluster in a new VPC (__VERSION__)",
+  "Description": "Deploy a Check Point Cluster in a new VPC test (__VERSION__)",
   "Metadata": {
     "AWS::CloudFormation::Interface": {
       "ParameterGroups": [
