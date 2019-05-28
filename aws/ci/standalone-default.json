@@ -14,5 +14,13 @@
   {
     "ParameterKey": "AdminSubnet",
     "ParameterValue": "0.0.0.0/0"
+  },
+  {
+    "ParameterKey": "Hostname",
+    "ParameterValue": "test"
+  },
+  {
+    "ParameterKey": "ResourcesTagName",
+    "ParameterValue": "test"
   }
 ]
