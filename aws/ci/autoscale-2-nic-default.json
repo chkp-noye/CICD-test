@@ -5,11 +5,11 @@
   },
   {
     "ParameterKey": "ExternalSubnets",
-    "ParameterValue": "subnet-01115f1599651fd72\,subnet-0e772d64a0f44c40e"
+    "ParameterValue": "subnet-01115f1599651fd72,subnet-0e772d64a0f44c40e"
   },
   {
     "ParameterKey": "InternalSubnets",
-    "ParameterValue": "subnet-0302afc487942bff6\,subnet-05d5c72081a49eeec"
+    "ParameterValue": "subnet-0302afc487942bff6,subnet-05d5c72081a49eeec"
   },
   {
     "ParameterKey": "ManagementServer",
