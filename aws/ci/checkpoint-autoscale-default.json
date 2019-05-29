@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "GatewaysSubnets",
-    "ParameterValue": "subnet-01115f1599651fd72\,subnet-0e772d64a0f44c40e"
+    "ParameterValue": "subnet-01115f1599651fd72,subnet-0e772d64a0f44c40e"
   },
   {
     "ParameterKey": "GatewaysLicense",
