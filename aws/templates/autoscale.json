@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Create an Auto Scaling group of Check Point gateways (__VERSION__)",
+  "Description": "Create an Auto Scaling group of Check Point gateways test (__VERSION__)",
   "Metadata": {
     "AWS::CloudFormation::Interface": {
       "ParameterGroups": [
