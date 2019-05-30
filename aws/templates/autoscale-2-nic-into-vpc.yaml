@@ -320,7 +320,7 @@ Resources:
               - 2
               - !Split
                 - '/'
-                - !Ref ${AWS::StackId}
+                - Ref: AWS::StackId
           - Effect: Allow
             Action:
             - ec2:DescribeInstances
