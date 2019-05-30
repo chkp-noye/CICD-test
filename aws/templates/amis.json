@@ -1,5 +1,5 @@
 {
-  "Description": "Returns a Check Point Amazon Machine ID (__VERSION__)",
+  "Description": "Returns a Check Point Amazon Machine ID test (__VERSION__)",
   "Parameters": {
     "Version": {
       "Description": "Security Gateway version",
