@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Deploy an Auto Scaling Group of CloudGuard Security Gateways with two network interfaces into an existing VPC (__VERSION__)
+Description: Deploy an Auto Scaling Group of CloudGuard Security Gateways with two network interfaces into an existing VPC test (__VERSION__)
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
