@@ -34,13 +34,5 @@
   {
     "ParameterKey": "ServersAMI",
     "ParameterValue": "ami-010a9f23bbecd3d34"
-  },
-  {
-    "ParameterKey": "ServicePort",
-    "ParameterValue": "80"
-  },
-  {
-    "ParameterKey": "Certificate",
-    "ParameterValue": "arn:aws:iam::123456789012:server-certificate/web-server-certificate"
   }
 ]
