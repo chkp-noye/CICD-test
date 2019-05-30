@@ -362,7 +362,7 @@ Resources:
               - 2
               - !Split
                 - '/'
-                - !Ref ${AWS::StackId}
+                - Ref: AWS::StackId
           - Effect: Allow
             Action:
             - ec2:DescribeSubnets
@@ -432,7 +432,7 @@ Resources:
         - 2
         - !Split
           - '/'
-          - !Ref ${AWS::StackId}
+          - Ref: AWS::StackId
       Handler: index.handler
       Role: !GetAtt DescribeSubnetsLambdaRole.Arn
       Runtime: python3.6
@@ -614,7 +614,7 @@ Resources:
         - 2
         - !Split
           - '/'
-          - !Ref ${AWS::StackId}
+          - Ref: AWS::StackId
       Handler: index.handler
       Role: !GetAtt LambdaRole.Arn
       Runtime: python3.6
