@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Deploy Check Point Gateways for a transit VPC hub (__VERSION__)
+Description: Deploy Check Point Gateways for a transit VPC hub test(__VERSION__)
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
