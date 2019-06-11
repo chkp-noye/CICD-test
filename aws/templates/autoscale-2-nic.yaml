@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Create an Auto Scaling group of Check Point gateways. The gateways provide outbound network connectivity through an internal ELB for instances inside a VPC.  The gateways are automatically provisioned as explained in https://bitbucket.org/chkp/sddc/src
+Description: test Create an Auto Scaling group of Check Point gateways. The gateways provide outbound network connectivity through an internal ELB for instances inside a VPC.  The gateways are automatically provisioned as explained in https://bitbucket.org/chkp/sddc/src
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
