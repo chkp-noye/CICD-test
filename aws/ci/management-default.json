@@ -18,5 +18,9 @@
   {
     "ParameterKey": "KeyName",
     "ParameterValue": "cicd"
+  },
+  {
+    "ParameterKey": "Permissions",
+    "ParameterValue": "None (configure later)"
   }
 ]
