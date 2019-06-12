@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description" : "Deploy 2 Check Point Gateways in 2 AZs in a VPC (__VERSION__)",
+    "Description" : "Deploy 2 Check Point Gateways in 2 AZs in a VPC test (__VERSION__)",
     "Metadata" : {
         "AWS::CloudFormation::Interface" : {
             "ParameterGroups" : [
