@@ -14,5 +14,9 @@
   {
     "ParameterKey": "SICKey",
     "ParameterValue": "zzzz1234"
+  },
+  {
+    "ParameterKey": "Permissions",
+    "ParameterValue": "None (configure later)"
   }
 ]
